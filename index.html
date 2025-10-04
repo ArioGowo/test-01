@@ -34,6 +34,13 @@
     .ig{width:14px;height:14px}
     .handle{display:inline-flex; flex-direction:row; align-items:center; gap:0; direction:ltr; white-space:nowrap; line-height:1}
     .handle .at{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; display:inline}
+    .ig-fab{position:fixed; right:24px; bottom:24px; display:inline-flex; align-items:center; gap:8px; padding:10px 16px; border-radius:999px; background:#0f1326; border:1px solid #2b3152; color:#cdd7ff; text-decoration:none; box-shadow:0 10px 28px rgba(0,0,0,.35); z-index:140; transition:transform .2s ease, box-shadow .2s ease}
+    .ig-fab:hover{transform:translateY(-2px); box-shadow:0 14px 34px rgba(0,0,0,.4)}
+    .ig-fab .ig{width:16px;height:16px}
+    .ig-fab-text{font-weight:600; font-size:13px}
+    body.light .ig-fab{background:#ffffff;border-color:#cbd5e1;color:#334155;box-shadow:0 12px 30px rgba(15,19,38,.12)}
+    body.light .ig-fab:hover{box-shadow:0 16px 36px rgba(15,19,38,.18)}
+    @media (max-width:600px){ .ig-fab{right:16px; bottom:16px; padding:8px 12px} }
     .swap{position:relative}
     .swap > *{width:100%}
     .swap.manual #scaleSelect{display:none}
@@ -306,8 +313,17 @@
       </div>
     </div>
 
-    <div id="footerNote" class="footer" style="margin-top:10px">نکته: برای مقیاس‌دادن به هندسه در CAD از <span class="mono ltr">scale factor = 1 / N</span> استفاده کنید (مثلاً برای <span class="mono ltr">1:200</span>، ضریب <span class="mono ltr">0.005</span> است). این ابزار تبدیل واحدها را با همین مقیاس انجام می‌دهد.</div>
+  <div id="footerNote" class="footer" style="margin-top:10px">نکته: برای مقیاس‌دادن به هندسه در CAD از <span class="mono ltr">scale factor = 1 / N</span> استفاده کنید (مثلاً برای <span class="mono ltr">1:200</span>، ضریب <span class="mono ltr">0.005</span> است). این ابزار تبدیل واحدها را با همین مقیاس انجام می‌دهد.</div>
   </div>
+
+  <a id="igFab" class="ig-fab" href="https://instagram.com/Pixel_architecture_studio" target="_blank" rel="noopener" aria-label="مشاهده صفحه اینستاگرام Pixel Studio">
+    <svg class="ig" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke="currentColor" stroke-width="1.5"></rect>
+      <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.5"></circle>
+      <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"></circle>
+    </svg>
+    <span id="igFabText" class="ig-fab-text">اینستاگرام Pixel Studio</span>
+  </a>
 
   <script>
     const unitToMM = { mm:1, cm:10, m:1000, km:1000000, in:25.4, ft:304.8, yd:914.4, mi:1609344, nmi:1852000 };
@@ -337,6 +353,8 @@
     const versionBtn = el('versionBtn');
     const verPop = el('verPop');
     const langToggle = el('langToggle');
+    const igFab = el('igFab');
+    const igFabText = el('igFabText');
     const appTitle = el('appTitle');
     const description = el('description');
     const realUnitLabel = el('realUnitLabel');
@@ -408,7 +426,9 @@
           versionTitle: 'نرم‌افزار تبدیل مقیاس',
           versionInfo: 'نسخه <span class="mono ltr">1.2</span>',
           versionHint: 'برای باخبر شدن از آخرین آپدیت‌ نرم افزار و پروژه‌های جدید نرم‌افزاری، پیج Pixel Studio رو فالو کنید.',
-          histDialogLabel: 'تاریخچه ۱۰ مقدار اخیر'
+          histDialogLabel: 'تاریخچه ۱۰ مقدار اخیر',
+          igFabLabel: 'مشاهده صفحه اینستاگرام Pixel Studio',
+          igFabText: 'اینستاگرام Pixel Studio'
         },
         realUnits: [
           { value: 'mm', label: 'میلی‌متر (mm)' },
@@ -461,7 +481,7 @@
       },
       en: {
         htmlLang: 'en',
-        dir: 'ltr',
+        dir: 'rtl',
         langToggleText: 'FA',
         langToggleAria: 'Switch language to Persian',
         themeToggleAria: 'Toggle light or dark mode',
@@ -512,7 +532,9 @@
           versionTitle: 'Scale converter app',
           versionInfo: 'Version <span class="mono ltr">1.2</span>',
           versionHint: 'Follow Pixel Studio on Instagram to see the latest software updates and new projects.',
-          histDialogLabel: 'History of the last 10 values'
+          histDialogLabel: 'History of the last 10 values',
+          igFabLabel: 'Open Pixel Studio on Instagram',
+          igFabText: 'Instagram — Pixel Studio'
         },
         realUnits: [
           { value: 'mm', label: 'Millimeter (mm)' },
@@ -646,6 +668,8 @@
       if (verHint) verHint.textContent = pack.strings.versionHint;
       if (footerBrand) footerBrand.innerHTML = pack.strings.footerBrand;
       if (footerNote) footerNote.innerHTML = pack.strings.footerNote;
+      if (igFab){ igFab.setAttribute('aria-label', pack.strings.igFabLabel); }
+      if (igFabText){ igFabText.textContent = pack.strings.igFabText; }
       if (realValue) realValue.setAttribute('placeholder', pack.strings.realValuePlaceholder);
       buildOptions(realUnit, pack.realUnits);
       buildOptions(targetUnit, pack.targetUnits);
